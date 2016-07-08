@@ -54,4 +54,23 @@ Recursion with transformations (translate, rotate, scale) -> push & pop! we have
 Recursion with arrays -> so we can have the tree grow, have leaves and make the leaves fall. Elements in arrays clone themselves in the array and add the following objects.
 
 <div id='id-session5'/>
-## Session 5, <a name="session5"></a>
+## Session 5, Genetic Algorithms <a name="session5"></a>
+We use *variables* and *objects* all the time. Can objects make other objects and pass their "DNA" to new objects? Evolve objects -> Develop objects based on Darwinian evolution. Mainly developed by John Holland (University of Michigan) in his book *Adaptation in natural and artificial systems, 1975*.
+
+> Genetic Algorithm (we're looking for creative applications) 3 categories:
+1. *Traditional gen. algorithm*, thought for problems, where the solution is so vast that a brute force approach would take too long. Takes clues from it's performance to get better, to "evolve" your solution.
+2. *Interactive solution*, applied in visual arts. Algorithmically generated visual art evolves according to user feedback.
+3. *Ecosystem simulation*, function that determines the fitness of members. Their behavior or appearance evolves in a natural way.
+
+A problem that can't be solved with brute force: Shakespeare Monkey problem. If we can test against a known solution, we can be sure the algorithm works.
+
+> Elements needed for Genetic Algorithms:
+1. *Heredity*, a process where traits are passed down to their children.
+2. *Variation*, there has to be a way by which variation is introduced to the population.
+3. *Selection*, there has to be a method by which some individuals can reproduce and others cannot. "Survival of the fittest". Some traits are better suited for a certain environment.
+
+Genetic Algorithm can be separated in two parts: Creating/Initializing population (setup) and Selection/Fitness evaluation (draw).
+1. *Creation*, 100 creatures (randomly?) -> it has variation
+2. *Selection*, evaluates and only the fittest have offspring
+  1. Fitness function -> gives each creatures a score according to its performance.
+  2. Selection -> probability values, how likely is the creature to be picked
