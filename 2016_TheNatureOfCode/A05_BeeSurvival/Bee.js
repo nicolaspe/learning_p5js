@@ -1,4 +1,12 @@
-function Bee(x, y, v) {
+/* Bee's attributes (genotype and phenotype)
+  Speed     -> The faster, the bigger the wings
+  Capacity  -> The more capacity, the bigger the bee 
+               (but also slower)
+  Steering  -> Each steering force has a factor coded in genes!
+*/
+
+function Bee(x, y, v){
+  this.DNA;
   this.pos = createVector(x, y);
   this.vel = p5.Vector.fromAngle(v);
   this.acc = createVector(0, 0);
@@ -71,7 +79,7 @@ function Bee(x, y, v) {
     }
     return steering;
   }
-
+  
   // Keeps the nearby flock together
   /*  array =  array of possible objects to be separated of
   influence =  maximum flock influence distance
@@ -96,8 +104,8 @@ function Bee(x, y, v) {
       return createVector(0, 0);
     }
   }
-
-  // Aligns the direction of the flock
+  
+  // Aligns the direction of the flock 
   /*  array =  array of possible objects to be separated of
   influence =  maximum flock influence distance
   */
@@ -125,7 +133,7 @@ function Bee(x, y, v) {
       return createVector(0, 0);
     }
   }
-
+  
   // Locates the nearest flower to go feed on it or biggest empty hive cell to store polen
   this.feed = function(flowers, hive) {
     var count = 0;
@@ -169,7 +177,7 @@ function Bee(x, y, v) {
       return createVector(0, 0);
     }
   }
-
+  
   // Steers towards a target
   this.seek = function(target) {
     var desired = p5.Vector.sub(target, this.pos);
@@ -179,7 +187,7 @@ function Bee(x, y, v) {
     steering.limit(this.maxforce);
     return steering;
   }
-
+  
   // Steers towards a target, but stops when arrives (at a min distance)
   this.arrive = function(target) {
     var desired = p5.Vector.sub(target, this.pos);
@@ -193,7 +201,7 @@ function Bee(x, y, v) {
     } else {
       desired.setMag(this.maxspeed);
     }
-
+  
     var steering = p5.Vector.sub(desired, this.vel);
     steering.limit(this.maxforce);
     return steering;
@@ -202,14 +210,14 @@ function Bee(x, y, v) {
   this.applyForce = function(force) {
     this.acc.add(force);
   }
-
+  
   this.update = function() {
     this.vel.add(this.acc);
     this.vel.limit(this.maxspeed);
     this.pos.add(this.vel);
     this.borders();
     this.acc.set(0);
-
+    
     if(this.polen >= this.cap){
       this.search = false;
       this.h = color(0, 99, 99);
@@ -219,7 +227,7 @@ function Bee(x, y, v) {
       this.h = color(54, 99, 99);
     }
   }
-
+  
   // Border wrapping
   this.borders = function() {
     if (this.pos.x < -this.r) this.pos.x = width + this.r;
@@ -227,14 +235,14 @@ function Bee(x, y, v) {
     if (this.pos.x > width + this.r) this.pos.x = -this.r;
     if (this.pos.y > height + this.r) this.pos.y = -this.r;
   }
-
+  
   this.display = function() {
     colorMode(HSB, 360, 100, 100, 100);
     var theta = this.vel.heading() - PI / 2;
     push();
     translate(this.pos.x, this.pos.y);
     rotate(theta);
-
+    
     // Bee's head
     noStroke();
     fill(0)
@@ -270,4 +278,6 @@ function Bee(x, y, v) {
     pop();
     pop();
   }
+
+  
 }
