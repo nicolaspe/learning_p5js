@@ -58,7 +58,7 @@ We use *variables* and *objects* all the time. Can objects make other objects an
 > Genetic Algorithm (we're looking for creative applications) 3 categories:
 1. *Traditional gen. algorithm*, thought for problems, where the solution is so vast that a brute force approach would take too long. Takes clues from it's performance to get better, to "evolve" your solution.
 2. *Interactive solution*, applied in visual arts. Algorithmically generated visual art evolves according to user feedback.
-3. *Ecosystem simulation*, function that determines the fitness of members. Their behavior or appearance evolves in a natural way.
+<!-- 3. *Ecosystem simulation*, function that determines the fitness of members. Their behavior or appearance evolves in a natural way. -->
 
 A problem that can't be solved with brute force: Shakespeare Monkey problem. If we can test against a known solution, we can be sure the algorithm works.
 
