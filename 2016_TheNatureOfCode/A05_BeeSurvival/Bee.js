@@ -1,29 +1,41 @@
-/* Bee's attributes (genotype and phenotype)
+/* Bee's genes (genotype and phenotype)
   Speed     -> The faster, the bigger the wings
   Capacity  -> The more capacity, the bigger the bee 
                (but also slower)
+  Toughness -> Max force it can resist
+  Vision    -> Field of view of the bee
+  Separation-> Desired flock separation
+  Influence -> Distance of influence of the flock
   Steering  -> Each steering force has a factor coded in genes!
 */
 
-function Bee(x, y, v){
-  this.DNA;
+function Bee(x, y, v, sourceDna){
+  this.dna = sourceDna;
   this.pos = createVector(x, y);
   this.vel = p5.Vector.fromAngle(v);
   this.acc = createVector(0, 0);
 
-  this.polen = 0; // Amount of polen stored
-  this.cap = 50;  // Max amount of polen that can be stored
-  this.search = true; // Searchs for food until full, then returns to hive
-
   colorMode(HSB, 360, 100, 100, 100);
-  this.r = 4; // Bee size`
   this.h = color(54, 99, 99);
-  this.maxspeed = 5; // Bee max speed
-  this.maxforce = 0.5; // Bee max steering force
 
-  this.flock_sep = this.r * 8; // flock desired SEParation
-  this.flock_inf = this.r * 15; // distance of INFluence of the flock
-  this.vision = this.r * 20 // vieweing (or smelling) distance to detect nearby flowers
+  // Genetic data assignment
+  this.maxspeed = this.dna.genes[0]; // Bee max speed
+  this.cap = this.dna.genes[1];      // Max amount of polen that can be stored
+  this.r = map(this.cap, 20, 80, 3, 6); // Bee size
+  this.maxspeed -= map(this.cap, 20, 80, -2, 2);  // speed correction
+  this.maxforce = this.dna.genes[2];         // Bee max steering force
+  this.vision = this.r*this.dna.genes[3];    // viewing distance to detect nearby flowers
+  this.flock_sep = this.r*this.dna.genes[4]; // flock desired SEParation
+  this.flock_inf = this.r*this.dna.genes[5]; // distance of INFluence of the flock
+  this.sepFactor = this.dna.genes[6];   // force factor for separation
+  this.cohFactor = this.dna.genes[7];   // force factor for cohesion
+  this.aliFactor = this.dna.genes[8];   // force factor for alignment
+  this.foodFactor = this.dna.genes[9];  // force factor for FEED to go to flowers
+  this.hiveFactor = this.dna.genes[10]; // force factor for FEED to return to hive
+
+  // Initial status
+  this.polen = 0;     // Amount of polen stored
+  this.search = true; // Searchs for food until full, then returns to hive
 
   this.applySteering = function(bees, flowers, hive) {
     // Flock conduct with other bees: separation, cohesion, alignment
@@ -33,13 +45,13 @@ function Bee(x, y, v){
     var ff = this.feed(flowers, hive);
 
     // Multiplication factors
-    sf.mult(2);
-    cf.mult(1.5);
-    af.mult(1);
+    sf.mult(this.sepFactor);
+    cf.mult(this.cohFactor);
+    af.mult(this.aliFactor);
     if (this.search) {
-      ff.mult(3);
+      ff.mult(this.foodFactor);
     } else {
-      ff.mult(10);
+      ff.mult(this.hiveFactor);
     }
 
     // Force application
@@ -247,11 +259,13 @@ function Bee(x, y, v){
     noStroke();
     fill(0)
     ellipse(0, this.r / 2, this.r * 3 / 2, this.r * 3 / 2);
+
     // Bee's body
     strokeWeight(1);
     stroke(0);
     fill(this.h);
     ellipse(0, -this.r / 2, this.r * 2, this.r * 2);
+
     // Bee's lines
     push();
     translate(0, -this.r / 2);
@@ -259,6 +273,7 @@ function Bee(x, y, v){
     line(this.r * .71, this.r / 2, -this.r * .71, this.r / 2); // line #2
     line(this.r * .71, -this.r / 2, -this.r * .71, -this.r / 2); // line #3
     pop();
+
     // Bee's wings
     push(); // wing #1
     translate(-this.r / 2, this.r / 2);
