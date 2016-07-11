@@ -1,4 +1,5 @@
 # The Nature of Code
+[Kadenze course](https://www.kadenze.com/courses/the-nature-of-code-i)
 
 ## Table of content
 - [Session 2, Vectors](#session2)
