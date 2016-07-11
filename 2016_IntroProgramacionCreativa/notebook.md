@@ -46,9 +46,9 @@ ellipse(posX, posY, width, height);
 - **Variables booleanas** no tienen valor numérico, tienen valor de *verdadero* o *falso*
   ```javascript
   if(){
-
+    ...
   } else{
-
+    ...
   }
   ```
 - Para crear funciones nuevas, uno puede
@@ -60,3 +60,7 @@ ellipse(posX, posY, width, height);
 - [Stupid Hackathon](http://www.stupidhackathon.com/)
   - [Potato your face](potatoyourface.com)
 - [Hype Framework](http://www.hypeframework.org/)
+- [ThreeJs](threejs.org) Biblioteca para 3D en p5js.
+- Sound Modulation
+  - [Amplitude Modulation](https://p5js.org/examples/examples/Sound_Amplitude_Modulation.php)
+  - [Frequency Modulation](https://p5js.org/examples/examples/Sound_Frequency_Modulation.php)
