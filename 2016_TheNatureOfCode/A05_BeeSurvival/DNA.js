@@ -11,41 +11,49 @@
 
 
 function DNA(newgenes){
+  this.minLimit = [];
+  this.maxLimit = [];
+  // Establish limits for genes' values
+  this.minLimit.push(1);   this.maxLimit.push(10); // 0 Speed
+  this.minLimit.push(20);  this.maxLimit.push(80); // 1 Capacity
+  this.minLimit.push(0.2); this.maxLimit.push( 1); // 2 Toughness
+  this.minLimit.push(10);  this.maxLimit.push(30); // 3 Vision
+  this.minLimit.push(3);   this.maxLimit.push(10); // 4 Separation
+  this.minLimit.push(3);   this.maxLimit.push(15); // 5 Influence
+  this.minLimit.push(1.5); this.maxLimit.push(10); // 6 Flock Separation
+  this.minLimit.push(1.5); this.maxLimit.push(10); // 7 Flock Cohesion
+  this.minLimit.push(1.5); this.maxLimit.push(10); // 8 Flock Alignment
+  this.minLimit.push(2.5); this.maxLimit.push(15); // 9 Feed search factor
+  this.minLimit.push(2.5); this.maxLimit.push(20); // 10 Feed return factor
+  this.minLimit.push(500); this.maxLimit.push(1500); // 11 Lifespan
   // Genetic sequence
-  if(arguments.length > 0){
+  if(arguments.length > 1){
     this.genes = newgenes;
   } else{
     this.genes = [];
-    this.genes.push(random(1, 10));  // 0 Speed
-    this.genes.push(random(20, 80)); // 1 Capacity
-    this.genes.push(random(0.2, 1)); // 2 Toughness
-    this.genes.push(random(10, 30)); // 3 Vision
-    this.genes.push(random(3, 10));  // 4 Separation
-    this.genes.push(random(3, 15));  // 5 Influence
-    this.genes.push(random(1.5, 10)); // 6 Separation factor
-    this.genes.push(random(1.5, 10)); // 7 Cohesion factor
-    this.genes.push(random(1.5, 10)); // 8 Alignment factor
-    this.genes.push(random(2.5, 15)); // 9 Feed flower-searching factor
-    this.genes.push(random(2.5, 20)); // 10 Feed hive-returning factor
-    this.genes.push(500+random(1000));// 11 Max lifespan
+    for (var i = 0; i < this.minLimit.length; i++) {
+      var val = random(this.minLimit[i], this.maxLimit[i]);
+      this.genes.push(val);
+    }
   }
   this.fitness = 0;
   
   this.crossover = function(partner){
-    var child = new DNA(this.genes.length);
+    var child = new DNA();
     var midpoint = floor(random(this.genes.length));
     
     for(var i=0; i<this.genes.length; i++){
-      if(i>midpoint) child.genes[i] = this.genes[i];
-      else child.genes[i] = partner.genes[i];
+      if(i>midpoint){ child.genes[i] = this.genes[i];} 
+      else{ child.genes[i] = partner.genes[i];}
     }
     return child;
   }
   
   this.mutation = function(rate){
     for(var i=0; i<this.genes.length; i++){
-      if(random(1)<rate){
-        this.genes[i] = newChar();
+      if(random(1) < rate){
+        var val = random(this.minLimit[i], this.maxLimit[i]);
+        this.genes[i] = val;
       }
     }
   }

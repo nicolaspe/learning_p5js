@@ -51,27 +51,16 @@ function draw() {
       }
     }
   }
-  
-  // Bee life
-  population.live();
-  // for(var i=0; i<bees.length; i++){
-  //   bees[i].applySteering(bees, flowers, hive);
-  //   bees[i].update();
-  //   // Check whether the current bee is still alive
-  //   if(bees[i].life <= 0){
-  //     bees.splice(i,1);
-  //     break;
-  //   }
-  //   bees[i].display();
-  // }
-  
+
   // Flower growth and exhaustion
   for(var i=0; i<flowers.length; i++){
     flowers[i].drain(population.bees);
     flowers[i].update();
     flowers[i].display();
   }
-
+  
+  // Bee life
+  population.live();
   population.displayInfo();
 }
 

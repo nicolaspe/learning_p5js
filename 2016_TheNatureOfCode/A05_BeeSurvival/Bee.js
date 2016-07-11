@@ -251,23 +251,31 @@ function Bee(x, y, v, sourceDna){
     this.borders();
     this.acc.set(0);
     
-    // Checks whether the bee is full of polen and must go to hive
+    this.timer++;
+    this.life--;
+  }
+
+  // Checks whether the bee is full of polen and must go to hive
+  this.loaded = function(){
     if(this.polen >= this.cap){
       this.search = false;
       this.h = color(0, 99, 99);
+      return true;
     }
-    // Checks whether the bee deposited all their polen
+    return false;
+  }
+  // Checks whether the bee deposited all their polen
+  this.unloaded = function(){
     if(this.polen <= 0 && !this.search){
       this.rounds = constrain(this.rounds+1, 0, 3); // Add 1 round
       this.recordTime = min(this.recordTime, this.timer);  // Checks for record time
       this.timer = 0; // Timer reset
-      this.life += 200; // Bonus life for delivery
+      this.life += 100; // Bonus life for delivery
       this.search = true; // Starts searching again
       this.h = color(54, 99, 99); // Reset color
+      return true;
     }
-
-    this.timer++;
-    this.life--;
+    return false;
   }
   
   // Border wrapping
@@ -287,12 +295,12 @@ function Bee(x, y, v, sourceDna){
     
     // Bee's head
     noStroke();
-    fill(0)
+    fill(20)
     ellipse(0, this.r / 2, this.r * 3 / 2, this.r * 3 / 2);
 
     // Bee's body
     strokeWeight(1);
-    stroke(0);
+    stroke(20);
     fill(this.h);
     ellipse(0, -this.r / 2, this.r * 2, this.r * 2);
 

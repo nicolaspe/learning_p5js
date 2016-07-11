@@ -53,7 +53,7 @@ function Hive(x, y, cap) {
   this.display = function() {
     colorMode(HSB, 360, 100, 100, 100);
     strokeWeight(1);
-    stroke(58, 80, 84, 60);
+    stroke(58, 80, 50, 80);
     fill(58, 85, 99, 75);
 
     var angle = TWO_PI / 6;
