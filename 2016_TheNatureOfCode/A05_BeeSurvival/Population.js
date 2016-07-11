@@ -1,26 +1,44 @@
 // Class to store and manage the population of bees
 // Also, displays Queen Bee and saves the best Bee's genes
-function Population(m, num, hiveX, hiveY, dist){
+function Population(m, num, max, hiveX, hiveY, dist){
 	this.mutationRate = m;
+	this.maxPopulation = max;
 	this.population = [];
 
+	// BEE CREATION
 	// Every bee should appear near each other
   noiseSeed(random(10000));
   var nx = 0; // x position noise variable
   var ny = 0; // y position noise variable
   var nv = 0; // velocity noise variable
   // Bees creation
-  for(var i=0; i<n; i++){
+  for(var i=0; i<num; i++){
    	// Position according to noise
-	  var posx = hiveX + map(noise(nx, 0, 0), 0, 1, -dist, dist);
-   	var posy = hiveY + map(noise(0, ny, 0), 0, 1, -dist, dist);
+	  var posx = hiveX +floor(map(noise(nx, 0, 0), 0, 1, -dist, dist));
+   	var posy = hiveY +floor(map(noise(0, ny, 0), 0, 1, -dist, dist));
    	var vel  = map(noise(0, 0, nv), 0, 1, 0, TWO_PI);
    	var genes = new DNA();
-   	bees.push(new Bee(posx, posy, vel, genes));
+   	this.population.push(new Bee(posx, posy, vel, genes));
    	nx += 0.2;
    	ny += 0.2;
    	nv += 0.2;
   }
-  
+
 	this.bestDNA;
+
+	this.live = function(){
+		// Check every bee
+  	for(var i=0; i<this.population.length; i++){
+  		// Bee movement
+    	this.population[i].applySteering(population, flowers, hive);
+    	this.population[i].update();
+    	// Check whether the current bee is still alive
+    	if(this.population[i].life <= 0){
+    		this.population.splice(i,1);
+    		break;
+    	}
+    	// Display
+    	this.population[i].display();
+  	}
+	}
 }

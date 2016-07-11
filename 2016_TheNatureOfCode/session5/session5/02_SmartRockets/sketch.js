@@ -81,7 +81,6 @@ function draw() {
  // Draw the obstacles
   for (var i = 0; i < obstacles.length; i++) {
     obstacles[i].display();
-
   }
   info.html("Generation #: " + population.getGenerations() + "<br>" + "Cycles left: " + (lifetime-lifeCounter));
 

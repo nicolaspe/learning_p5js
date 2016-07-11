@@ -31,10 +31,10 @@ function Flower(x, y) {
   
   this.display = function() {
     colorMode(HSB, 360, 100, 100, 100);
-    // As the flower gets drained, it gets more transparent
-    var life = map(this.polen, 1000, 0, 100, 1);
     push();
     translate(this.pos.x, this.pos.y);
+    // As the flower gets drained, it gets more transparent
+    var life = map(this.polen, 1000, 0, 100, 1);
     // Flower's petals
     strokeWeight(0.1);
     stroke(this.h, 90, 90, life);

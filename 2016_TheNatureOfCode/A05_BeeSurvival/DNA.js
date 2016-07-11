@@ -27,6 +27,7 @@ function DNA(newgenes){
     this.genes.push(random(1.5, 10)); // 8 Alignment factor
     this.genes.push(random(2.5, 15)); // 9 Feed flower-searching factor
     this.genes.push(random(2.5, 20)); // 10 Feed hive-returning factor
+    this.genes.push(500+random(1000));// 11 Max lifespan
   }
   this.fitness = 0;
   

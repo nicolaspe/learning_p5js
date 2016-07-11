@@ -14,7 +14,7 @@ function Hive(x, y, cap) {
     for (var i = 0; i < bees.length; i++) {
       var d = p5.Vector.dist(this.pos, bees[i].pos);
       var storeDist = max(this.size, 25)
-      if ((d > 0) && (d < storeDist) && this.polen < this.cap && !bees[i].search) {
+      if (d > 0 && d < storeDist && this.polen < this.cap && !bees[i].search) {
         bees[i].polen--;
         this.polen++;
       }

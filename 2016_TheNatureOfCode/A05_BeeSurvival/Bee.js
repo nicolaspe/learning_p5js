@@ -7,6 +7,7 @@
   Separation-> Desired flock separation
   Influence -> Distance of influence of the flock
   Steering  -> Each steering force has a factor coded in genes!
+  Life      -> Maximum lifespan
 */
 
 function Bee(x, y, v, sourceDna){
@@ -22,7 +23,7 @@ function Bee(x, y, v, sourceDna){
   this.maxspeed = this.dna.genes[0]; // Bee max speed
   this.cap = this.dna.genes[1];      // Max amount of polen that can be stored
   this.r = map(this.cap, 20, 80, 3, 6); // Bee size
-  this.maxspeed -= map(this.cap, 20, 80, -2, 2);  // speed correction
+  this.maxspeed -= map(this.cap, 20, 80, -2, 2);  // Speed correction
   this.maxforce = this.dna.genes[2];         // Bee max steering force
   this.vision = this.r*this.dna.genes[3];    // viewing distance to detect nearby flowers
   this.flock_sep = this.r*this.dna.genes[4]; // flock desired SEParation
@@ -32,8 +33,10 @@ function Bee(x, y, v, sourceDna){
   this.aliFactor = this.dna.genes[8];   // force factor for alignment
   this.foodFactor = this.dna.genes[9];  // force factor for FEED to go to flowers
   this.hiveFactor = this.dna.genes[10]; // force factor for FEED to return to hive
+  this.life = this.dna.genes[11]; // Maximum lifespan
 
   // Initial status
+  this.timer = 0;     // Timer to track how much it takes to return with food
   this.polen = 0;     // Amount of polen stored
   this.search = true; // Searchs for food until full, then returns to hive
 
@@ -238,6 +241,9 @@ function Bee(x, y, v, sourceDna){
       this.search = true;
       this.h = color(54, 99, 99);
     }
+
+    this.timer++;
+    this.life--;
   }
   
   // Border wrapping

@@ -11,31 +11,39 @@
     the best one, the higher the chance to kill it. Also has a population cap.
 */
 
-var bees = [];
-var hive = [];
-var flowers = [];
+//var bees = [];
+var population;   // Bee population
+var hive = [];    // Hive array
+var flowers = []; // Flower array
+
 
 function setup() {
   createCanvas(720, 480);
   colorMode(HSB, 360, 100, 100, 100);
   
   // Create hive at the center of the canvas
-  createHive(width/2, height/2);
-  // Create starting bees
-  createBees(30, width/2, height/2, 30);
+  var hiveX = width/2;
+  var hiveY = height/2;
+  createHive(hiveX, hiveY);
+  // Initialize bee population
+  //createBees(30, width/2, height/2, 30);
+  var mutRate = 0.02;
+  var startPop = 30;
+  var maxPop = 50;
+  population = new Population(mutRate, startPop, maxPop, hiveX, hiveY, 30);
   // Create flowers
   createFlowers(4);
 }
 
 function draw() {
-  background(color(109, 80, 90));
+  background(color(109, 38, 84));
   
   // Hive storage and replication.
   for(var i=0; i<hive.length; i++){
-    hive[i].store(bees);
+    hive[i].store(population.population);
     hive[i].update();
     hive[i].display();
-    
+
     if(hive[i].timeToReplicate() && hive.length<1024){
       var newCell = hive[i].replicate();
       for(var j=0; j<newCell.length; j++){
@@ -44,16 +52,22 @@ function draw() {
     }
   }
   
-  // Bees movement
-  for(var i=0; i<bees.length; i++){
-    bees[i].applySteering(bees, flowers, hive);
-    bees[i].update();
-    bees[i].display();
-  }
+  // Bee life
+  population.live();
+  // for(var i=0; i<bees.length; i++){
+  //   bees[i].applySteering(bees, flowers, hive);
+  //   bees[i].update();
+  //   // Check whether the current bee is still alive
+  //   if(bees[i].life <= 0){
+  //     bees.splice(i,1);
+  //     break;
+  //   }
+  //   bees[i].display();
+  // }
   
   // Flower growth and exhaustion
   for(var i=0; i<flowers.length; i++){
-    flowers[i].drain(bees);
+    flowers[i].drain(population.population);
     flowers[i].update();
     flowers[i].display();
   }
