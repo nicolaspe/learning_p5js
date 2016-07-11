@@ -31,10 +31,6 @@ function DNA(newgenes){
   }
   this.fitness = 0;
   
-  this.calcFitness = function(){
-    
-  }
-  
   this.crossover = function(partner){
     var child = new DNA(this.genes.length);
     var midpoint = floor(random(this.genes.length));

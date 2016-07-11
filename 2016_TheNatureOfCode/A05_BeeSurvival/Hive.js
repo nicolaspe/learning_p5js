@@ -16,6 +16,7 @@ function Hive(x, y, cap) {
       var storeDist = max(this.size, 25)
       if (d > 0 && d < storeDist && this.polen < this.cap && !bees[i].search) {
         bees[i].polen--;
+        bees[i].life++;  // doesn't consume life while depositing
         this.polen++;
       }
     }
@@ -52,7 +53,7 @@ function Hive(x, y, cap) {
   this.display = function() {
     colorMode(HSB, 360, 100, 100, 100);
     strokeWeight(1);
-    stroke(58, 80, 84, 75);
+    stroke(58, 80, 84, 60);
     fill(58, 85, 99, 75);
 
     var angle = TWO_PI / 6;

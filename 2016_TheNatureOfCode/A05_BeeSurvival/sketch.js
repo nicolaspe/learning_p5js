@@ -40,7 +40,7 @@ function draw() {
   
   // Hive storage and replication.
   for(var i=0; i<hive.length; i++){
-    hive[i].store(population.population);
+    hive[i].store(population.bees);
     hive[i].update();
     hive[i].display();
 
@@ -67,10 +67,12 @@ function draw() {
   
   // Flower growth and exhaustion
   for(var i=0; i<flowers.length; i++){
-    flowers[i].drain(population.population);
+    flowers[i].drain(population.bees);
     flowers[i].update();
     flowers[i].display();
   }
+
+  population.displayInfo();
 }
 
 // Creates the hive at posx, posy

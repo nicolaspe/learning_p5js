@@ -23,6 +23,7 @@ function Bee(x, y, v, sourceDna){
   this.maxspeed = this.dna.genes[0]; // Bee max speed
   this.cap = this.dna.genes[1];      // Max amount of polen that can be stored
   this.r = map(this.cap, 20, 80, 3, 6); // Bee size
+  this.wr = this.r*map(this.maxspeed, 1, 10, 1, 3); // Bee wing length
   this.maxspeed -= map(this.cap, 20, 80, -2, 2);  // Speed correction
   this.maxforce = this.dna.genes[2];         // Bee max steering force
   this.vision = this.r*this.dna.genes[3];    // viewing distance to detect nearby flowers
@@ -37,8 +38,25 @@ function Bee(x, y, v, sourceDna){
 
   // Initial status
   this.timer = 0;     // Timer to track how much it takes to return with food
+  this.recordTime = this.life;  // Track the fastest time it has taken to deliver food
+  this.rounds = 0;    // Track how many times it has come and gone (max 4)
   this.polen = 0;     // Amount of polen stored
   this.search = true; // Searchs for food until full, then returns to hive
+  this.fitness = 0;   // Fitness value
+
+  // Calculates the fitness of the current bee.
+  // term1 sees how much does it take to deliver the polen
+  //    it grows exponentially the more times it delivers
+  // term2 grants points for lifespan (5-15)
+  this.calcFitness = function(){
+    var term1 = constrain(this.cap*100/this.recordTime, 1, 100);
+    term1 = map(this.cap*100/this.recordTime, 1, 100, 1, 10);
+    var term2 = this.dna.genes[11]/100;
+    this.fitness = pow(term1,this.rounds+1) +term2;
+    this.dna.fitness = this.fitness;
+    return this.fitness;
+  }
+
 
   this.applySteering = function(bees, flowers, hive) {
     // Flock conduct with other bees: separation, cohesion, alignment
@@ -233,13 +251,19 @@ function Bee(x, y, v, sourceDna){
     this.borders();
     this.acc.set(0);
     
+    // Checks whether the bee is full of polen and must go to hive
     if(this.polen >= this.cap){
       this.search = false;
       this.h = color(0, 99, 99);
     }
-    if(this.polen <= 0){
-      this.search = true;
-      this.h = color(54, 99, 99);
+    // Checks whether the bee deposited all their polen
+    if(this.polen <= 0 && !this.search){
+      this.rounds = constrain(this.rounds+1, 0, 3); // Add 1 round
+      this.recordTime = min(this.recordTime, this.timer);  // Checks for record time
+      this.timer = 0; // Timer reset
+      this.life += 200; // Bonus life for delivery
+      this.search = true; // Starts searching again
+      this.h = color(54, 99, 99); // Reset color
     }
 
     this.timer++;
@@ -287,7 +311,7 @@ function Bee(x, y, v, sourceDna){
     translate(0, -this.r);
     stroke(40, 50);
     fill(250, 50);
-    ellipse(0, 0, this.r, this.r * 2);
+    ellipse(0, 0, this.r, this.wr);
     pop();
     push(); // wing #2
     translate(this.r / 2, this.r / 2);
@@ -295,7 +319,7 @@ function Bee(x, y, v, sourceDna){
     translate(0, -this.r);
     stroke(40, 50);
     fill(250, 50);
-    ellipse(0, 0, this.r, this.r * 2);
+    ellipse(0, 0, this.r, this.wr);
     pop();
     pop();
   }
